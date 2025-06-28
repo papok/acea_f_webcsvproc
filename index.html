@@ -1,1 +1,249 @@
-Hola 2!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Processor (Wasm)</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; display: flex; justify-content: center; align-items: center; min-height: 80vh; background-color: #f4f7f6; }
+        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; width: 90%; text-align: center; }
+        h1 { color: #333; margin-bottom: 25px; }
+        .file-input-wrapper {
+            border: 2px dashed #007bff;
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .file-input-wrapper:hover {
+            background-color: #e6f7ff;
+        }
+        .file-input-wrapper input[type="file"] {
+            display: none;
+        }
+        .file-input-wrapper label {
+            display: block;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .file-name {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        #message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        #message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #007bff;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV Processor (Wasm)</h1>
+
+        <div class="file-input-wrapper" id="fileInputWrapper">
+            <label for="csvFileInput">Click to select or drag & drop your CSV file here</label>
+            <input type="file" id="csvFileInput" accept=".csv">
+            <div class="file-name" id="selectedFileName">No file chosen</div>
+        </div>
+
+        <button id="processButton" disabled>Process CSV <div class="spinner" id="spinner"></div></button>
+        <div id="message"></div>
+    </div>
+
+    <script type="module">
+        // Import the generated Wasm module
+        import init, { process_csv_data_wasm } from './pkg/csv_processor_wasm.js';
+
+        const csvFileInput = document.getElementById('csvFileInput');
+        const selectedFileName = document.getElementById('selectedFileName');
+        const processButton = document.getElementById('processButton');
+        const messageDiv = document.getElementById('message');
+        const spinner = document.getElementById('spinner');
+        const fileInputWrapper = document.getElementById('fileInputWrapper');
+
+        let selectedFile = null;
+
+        // Initialize the Wasm module
+        async function initializeWasm() {
+            try {
+                await init();
+                console.log('Wasm module initialized successfully!');
+            } catch (e) {
+                console.error('Failed to initialize Wasm:', e);
+                showMessage('Error loading Wasm module. Please check console.', 'error');
+                processButton.disabled = true; // Disable button if Wasm fails
+            }
+        }
+
+        initializeWasm();
+
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+        }
+
+        function clearMessage() {
+            messageDiv.style.display = 'none';
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+        }
+
+        function setProcessingState(isProcessing) {
+            processButton.disabled = isProcessing || !selectedFile;
+            spinner.style.display = isProcessing ? 'inline-block' : 'none';
+            processButton.innerHTML = isProcessing ? 'Processing... <div class="spinner" id="spinner"></div>' : 'Process CSV';
+            if (!isProcessing && spinner.parentNode === processButton) {
+                spinner.remove(); // Remove spinner if it was added
+            }
+        }
+
+
+        // Handle file selection via input
+        csvFileInput.addEventListener('change', (event) => {
+            clearMessage();
+            if (event.target.files.length > 0) {
+                selectedFile = event.target.files[0];
+                selectedFileName.textContent = selectedFile.name;
+                processButton.disabled = false;
+            } else {
+                selectedFile = null;
+                selectedFileName.textContent = 'No file chosen';
+                processButton.disabled = true;
+            }
+        });
+
+        // Handle drag and drop
+        fileInputWrapper.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            fileInputWrapper.style.borderColor = '#0056b3';
+        });
+
+        fileInputWrapper.addEventListener('dragleave', (event) => {
+            event.preventDefault();
+            fileInputWrapper.style.borderColor = '#007bff';
+        });
+
+        fileInputWrapper.addEventListener('drop', (event) => {
+            event.preventDefault();
+            fileInputWrapper.style.borderColor = '#007bff';
+            clearMessage();
+            if (event.dataTransfer.files.length > 0) {
+                const droppedFile = event.dataTransfer.files[0];
+                if (droppedFile.name.endsWith('.csv')) {
+                    selectedFile = droppedFile;
+                    selectedFileName.textContent = selectedFile.name;
+                    processButton.disabled = false;
+                    csvFileInput.files = event.dataTransfer.files; // Update the actual input element
+                } else {
+                    selectedFile = null;
+                    selectedFileName.textContent = 'No file chosen';
+                    processButton.disabled = true;
+                    showMessage('Please drop a .csv file.', 'error');
+                }
+            }
+        });
+
+
+        // Handle CSV processing on button click
+        processButton.addEventListener('click', async () => {
+            if (!selectedFile) {
+                showMessage('Please select a CSV file first.', 'error');
+                return;
+            }
+
+            clearMessage();
+            setProcessingState(true);
+
+            const reader = new FileReader();
+            reader.onload = async (e) => {
+                const csvContent = e.target.result;
+                try {
+                    // Call the Wasm function
+                    const processedCsv = process_csv_data_wasm(csvContent);
+
+                    // Create a Blob from the processed CSV string
+                    const blob = new Blob([processedCsv], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+
+                    // Create a temporary link element to trigger download
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `processed_${selectedFile.name}`;
+                    document.body.appendChild(a); // Required for Firefox
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+
+                    showMessage('CSV processed and downloaded successfully!', 'success');
+
+                } catch (error) {
+                    console.error('Error processing CSV with Wasm:', error);
+                    // Wasm-bindgen errors are JsValue, so check if it's a string
+                    const errorMessage = typeof error === 'string' ? error : error.message || 'An unknown error occurred during processing.';
+                    showMessage(`Error: ${errorMessage}`, 'error');
+                } finally {
+                    setProcessingState(false);
+                }
+            };
+            reader.onerror = () => {
+                console.error("FileReader error:", reader.error);
+                showMessage('Error reading file.', 'error');
+                setProcessingState(false);
+            };
+
+            reader.readAsText(selectedFile); // Read file as plain text
+        });
+
+        // Initial state
+        setProcessingState(false);
+    </script>
+</body>
+</html>
