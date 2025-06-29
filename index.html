@@ -85,7 +85,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>CSV Processor (Wasm)</h1>
+        <h1>Procesador de resumen CSV (ACEA)</h1>
 
         <div class="file-input-wrapper" id="fileInputWrapper">
             <label for="csvFileInput">Cliquee para seleccionar o arrastre acá un archivo CSV</label>
@@ -140,7 +140,7 @@
         function setProcessingState(isProcessing) {
             processButton.disabled = isProcessing || !selectedFile;
             spinner.style.display = isProcessing ? 'inline-block' : 'none';
-            processButton.innerHTML = isProcessing ? 'Processing... <div class="spinner" id="spinner"></div>' : 'Process CSV';
+            processButton.innerHTML = isProcessing ? 'Procesando... <div class="spinner" id="spinner"></div>' : 'Procesar CSV';
             if (!isProcessing && spinner.parentNode === processButton) {
                 spinner.remove(); // Remove spinner if it was added
             }
