@@ -99,7 +99,7 @@
 
     <script type="module">
         // Import the generated Wasm module
-        import init, { process_csv_data_wasm } from './pkg/csv_processor_wasm.js';
+        import init, { process_csv } from './pkg/csv_processor_wasm.js';
 
         const csvFileInput = document.getElementById('csvFileInput');
         const selectedFileName = document.getElementById('selectedFileName');
@@ -207,7 +207,7 @@
                 const csvContent = e.target.result;
                 try {
                     // Call the Wasm function
-                    const processedCsv = process_csv_data_wasm(csvContent);
+                    const processedCsv = process_csv(csvContent);
 
                     // Create a Blob from the processed CSV string
                     const blob = new Blob([processedCsv], { type: 'text/csv;charset=utf-8;' });
