@@ -118,7 +118,7 @@
                 console.log('Wasm module initialized successfully!');
             } catch (e) {
                 console.error('Failed to initialize Wasm:', e);
-                showMessage('Error loading Wasm module. Please check console.', 'error');
+                showMessage('Error al cargar el módulo wasm. Revisar la consola.', 'error');
                 processButton.disabled = true; // Disable button if Wasm fails
             }
         }
@@ -187,7 +187,7 @@
                     selectedFile = null;
                     selectedFileName.textContent = 'No file chosen';
                     processButton.disabled = true;
-                    showMessage('Please drop a .csv file.', 'error');
+                    showMessage('Arrastrar acá un archivo CSV.', 'error');
                 }
             }
         });
@@ -196,7 +196,7 @@
         // Handle CSV processing on button click
         processButton.addEventListener('click', async () => {
             if (!selectedFile) {
-                showMessage('Please select a CSV file first.', 'error');
+                showMessage('Seleccionar un archivo CSV.', 'error');
                 return;
             }
 
@@ -224,7 +224,7 @@
                     const url1 = URL.createObjectURL(blob1);
                     const a1 = document.createElement('a');
                     a1.href = url1;
-                    a1.download = `incomes_${selectedFile.name}`;
+                    a1.download = `entrantes_${selectedFile.name}`;
                     document.body.appendChild(a1);
                     a1.click();
                     document.body.removeChild(a1);
@@ -235,13 +235,13 @@
                     const url2 = URL.createObjectURL(blob2);
                     const a2 = document.createElement('a');
                     a2.href = url2;
-                    a2.download = `debits_${selectedFile.name}`;
+                    a2.download = `salientes_${selectedFile.name}`;
                     document.body.appendChild(a2);
                     a2.click();
                     document.body.removeChild(a2);
                     URL.revokeObjectURL(url2);
 
-                    showMessage('CSV processed and result files downloaded successfully', 'success');
+                    showMessage('CSV procesado!', 'success');
 
                 } catch (error) {
                     console.error('Error processing CSV with Wasm:', error);
@@ -254,7 +254,7 @@
             };
             reader.onerror = () => {
                 console.error("FileReader error:", reader.error);
-                showMessage('Error reading file.', 'error');
+                showMessage('Error leyendo el archivo.', 'error');
                 setProcessingState(false);
             };
 
