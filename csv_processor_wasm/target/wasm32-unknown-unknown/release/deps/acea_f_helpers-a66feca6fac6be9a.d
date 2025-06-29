@@ -1,0 +1,12 @@
+/home/papo/Documents/ACEA/finanzas/acea_f_webcsvproc/csv_processor_wasm/target/wasm32-unknown-unknown/release/deps/libacea_f_helpers-a66feca6fac6be9a.rmeta: /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/lib.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/mod.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/main.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/income_line.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/operations_types.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/errors.rs
+
+/home/papo/Documents/ACEA/finanzas/acea_f_webcsvproc/csv_processor_wasm/target/wasm32-unknown-unknown/release/deps/libacea_f_helpers-a66feca6fac6be9a.rlib: /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/lib.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/mod.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/main.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/income_line.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/operations_types.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/errors.rs
+
+/home/papo/Documents/ACEA/finanzas/acea_f_webcsvproc/csv_processor_wasm/target/wasm32-unknown-unknown/release/deps/acea_f_helpers-a66feca6fac6be9a.d: /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/lib.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/mod.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/main.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/income_line.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/operations_types.rs /home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/errors.rs
+
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/lib.rs:
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/mod.rs:
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/main.rs:
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/income_line.rs:
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/operations_types.rs:
+/home/papo/Documents/ACEA/finanzas/acea_f_helpers/src/process_income_lines/errors.rs:
