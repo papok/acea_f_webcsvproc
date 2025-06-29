@@ -240,23 +240,24 @@
                     a2.click();
                     document.body.removeChild(a2);
                     URL.revokeObjectURL(url2);
-                    // Call the Wasm function
-                    const processedCsv = process_csv(csvContent);
 
-                    // Create a Blob from the processed CSV string
-                    const blob = new Blob([processedCsv], { type: 'text/csv;charset=utf-8;' });
-                    const url = URL.createObjectURL(blob);
+                    // // Call the Wasm function
+                    // const processedCsv = process_csv(csvContent);
 
-                    // Create a temporary link element to trigger download
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `processed_${selectedFile.name}`;
-                    document.body.appendChild(a); // Required for Firefox
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
+                    // // Create a Blob from the processed CSV string
+                    // const blob = new Blob([processedCsv], { type: 'text/csv;charset=utf-8;' });
+                    // const url = URL.createObjectURL(blob);
 
-                    showMessage('CSV processed and downloaded successfully!', 'success');
+                    // // Create a temporary link element to trigger download
+                    // const a = document.createElement('a');
+                    // a.href = url;
+                    // a.download = `processed_${selectedFile.name}`;
+                    // document.body.appendChild(a); // Required for Firefox
+                    // a.click();
+                    // document.body.removeChild(a);
+                    // URL.revokeObjectURL(url);
+
+                    showMessage('CSV processed and downloaded successfully (2)!', 'success');
 
                 } catch (error) {
                     console.error('Error processing CSV with Wasm:', error);
