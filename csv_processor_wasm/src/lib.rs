@@ -7,12 +7,12 @@ extern "C" {
     fn log(s: &str);
 }
 #[wasm_bindgen]
-pub fn process_csv(input: &str) -> Result<String, JsValue> {
+pub fn process_csv(input: &str) -> Result<JsValue, JsValue> {
     log("Processing CSV data...(2)");
-    
-    // Here you would implement your CSV processing logic.
-    // For demonstration, we'll just return the input as output.
-    
-    // Ok(input.to_string())
-    process_csv_str(input).map_err(|e| JsValue::from_str(&e.to_string()))
-}   
+
+    // Call your processing function and convert the result to JsValue (e.g., as a JS array)
+    match process_csv_str(input) {
+        Ok(arr) => Ok(serde_wasm_bindgen::to_value(&arr).unwrap_or(JsValue::UNDEFINED)),
+        Err(e) => Err(JsValue::from_str(&e.to_string())),
+    }
+}

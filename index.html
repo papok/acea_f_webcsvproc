@@ -207,6 +207,39 @@
             reader.onload = async (e) => {
                 const csvContent = e.target.result;
                 try {
+                    const result = process_csv(csvContent);
+                    // Expect result to be an array or object with two CSV strings
+                    let csv1, csv2;
+                    if (Array.isArray(result) && result.length === 2) {
+                        [csv1, csv2] = result;
+                    } else if (typeof result === 'object' && result !== null && 'csv1' in result && 'csv2' in result) {
+                        csv1 = result.csv1;
+                        csv2 = result.csv2;
+                    } else {
+                        throw new Error('process_csv did not return two CSV strings.');
+                    }
+
+                    // Download first CSV
+                    const blob1 = new Blob([csv1], { type: 'text/csv;charset=utf-8;' });
+                    const url1 = URL.createObjectURL(blob1);
+                    const a1 = document.createElement('a');
+                    a1.href = url1;
+                    a1.download = `processed1_${selectedFile.name}`;
+                    document.body.appendChild(a1);
+                    a1.click();
+                    document.body.removeChild(a1);
+                    URL.revokeObjectURL(url1);
+
+                    // Download second CSV
+                    const blob2 = new Blob([csv2], { type: 'text/csv;charset=utf-8;' });
+                    const url2 = URL.createObjectURL(blob2);
+                    const a2 = document.createElement('a');
+                    a2.href = url2;
+                    a2.download = `processed2_${selectedFile.name}`;
+                    document.body.appendChild(a2);
+                    a2.click();
+                    document.body.removeChild(a2);
+                    URL.revokeObjectURL(url2);
                     // Call the Wasm function
                     const processedCsv = process_csv(csvContent);
 

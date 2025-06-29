@@ -1,0 +1,1 @@
+std::result::Result<[std::string::String; 2], wasm_bindgen::JsValue>: wasm_bindgen::convert::ReturnWasmAbi
