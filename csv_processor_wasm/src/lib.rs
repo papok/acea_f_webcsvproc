@@ -8,7 +8,7 @@ extern "C" {
 }
 #[wasm_bindgen]
 pub fn process_csv(input: &str) -> Result<String, JsValue> {
-    log("Processing CSV data...");
+    log("Processing CSV data...(2)");
     
     // Here you would implement your CSV processing logic.
     // For demonstration, we'll just return the input as output.
