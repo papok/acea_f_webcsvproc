@@ -1,0 +1,15 @@
+{
+  "name": "csv_processor_wasm",
+  "type": "module",
+  "version": "0.1.0",
+  "files": [
+    "csv_processor_wasm_bg.wasm",
+    "csv_processor_wasm.js",
+    "csv_processor_wasm.d.ts"
+  ],
+  "main": "csv_processor_wasm.js",
+  "types": "csv_processor_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}
