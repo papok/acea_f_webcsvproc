@@ -224,7 +224,7 @@
                     const url1 = URL.createObjectURL(blob1);
                     const a1 = document.createElement('a');
                     a1.href = url1;
-                    a1.download = `processed1_${selectedFile.name}`;
+                    a1.download = `incomes_${selectedFile.name}`;
                     document.body.appendChild(a1);
                     a1.click();
                     document.body.removeChild(a1);
@@ -235,29 +235,13 @@
                     const url2 = URL.createObjectURL(blob2);
                     const a2 = document.createElement('a');
                     a2.href = url2;
-                    a2.download = `processed2_${selectedFile.name}`;
+                    a2.download = `debits_${selectedFile.name}`;
                     document.body.appendChild(a2);
                     a2.click();
                     document.body.removeChild(a2);
                     URL.revokeObjectURL(url2);
 
-                    // // Call the Wasm function
-                    // const processedCsv = process_csv(csvContent);
-
-                    // // Create a Blob from the processed CSV string
-                    // const blob = new Blob([processedCsv], { type: 'text/csv;charset=utf-8;' });
-                    // const url = URL.createObjectURL(blob);
-
-                    // // Create a temporary link element to trigger download
-                    // const a = document.createElement('a');
-                    // a.href = url;
-                    // a.download = `processed_${selectedFile.name}`;
-                    // document.body.appendChild(a); // Required for Firefox
-                    // a.click();
-                    // document.body.removeChild(a);
-                    // URL.revokeObjectURL(url);
-
-                    showMessage('CSV processed and downloaded successfully (2)!', 'success');
+                    showMessage('CSV processed and result files downloaded successfully', 'success');
 
                 } catch (error) {
                     console.error('Error processing CSV with Wasm:', error);
