@@ -263,15 +263,15 @@
                     
 
                     // Download CSV
-                    const blob1 = new Blob([csv1], { type: 'text/csv;charset=utf-8;' });
-                    const url1 = URL.createObjectURL(blob1);
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
                     const a1 = document.createElement('a');
-                    a1.href = url1;
+                    a1.href = url;
                     a1.download = `procesado_${selectedFile.name}`;
                     document.body.appendChild(a1);
                     a1.click();
                     document.body.removeChild(a1);
-                    URL.revokeObjectURL(url1);
+                    URL.revokeObjectURL(url);
 
                     // // Download first CSV
                     // const blob1 = new Blob([csv1], { type: 'text/csv;charset=utf-8;' });
