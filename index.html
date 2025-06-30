@@ -267,7 +267,7 @@
                     const url1 = URL.createObjectURL(blob1);
                     const a1 = document.createElement('a');
                     a1.href = url1;
-                    a1.download = `entrantes_${selectedFile.name}`;
+                    a1.download = `procesado_${selectedFile.name}`;
                     document.body.appendChild(a1);
                     a1.click();
                     document.body.removeChild(a1);
