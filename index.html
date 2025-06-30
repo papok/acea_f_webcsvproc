@@ -1,13 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Procesador de resumen CSV (ACEA)</title>
     <style>
-        body { font-family: sans-serif; margin: 2em; display: flex; justify-content: center; align-items: center; min-height: 80vh; background-color: #f4f7f6; }
-        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); max-width: 500px; width: 90%; text-align: center; }
-        h1 { color: #333; margin-bottom: 25px; }
+        body {
+            font-family: sans-serif;
+            margin: 2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            background-color: #f4f7f6;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+        }
+
         .file-input-wrapper {
             border: 2px dashed #007bff;
             padding: 20px;
@@ -16,22 +39,27 @@
             transition: background-color 0.3s ease;
             margin-bottom: 20px;
         }
+
         .file-input-wrapper:hover {
             background-color: #e6f7ff;
         }
+
         .file-input-wrapper input[type="file"] {
             display: none;
         }
+
         .file-input-wrapper label {
             display: block;
             color: #007bff;
             font-weight: bold;
         }
+
         .file-name {
             margin-top: 10px;
             font-size: 0.9em;
             color: #555;
         }
+
         button {
             background-color: #28a745;
             color: white;
@@ -43,29 +71,35 @@
             transition: background-color 0.3s ease;
             margin-top: 15px;
         }
+
         button:hover {
             background-color: #218838;
         }
+
         button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
         }
+
         #message {
             margin-top: 20px;
             padding: 10px;
             border-radius: 5px;
             display: none;
         }
+
         #message.success {
             background-color: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
+
         #message.error {
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
         .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-left-color: #007bff;
@@ -79,10 +113,13 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Procesador de resumen CSV (ACEA)</h1>
@@ -208,18 +245,24 @@
                 const csvContent = e.target.result;
                 try {
                     const result = process_csv(csvContent);
-                    // Expect result to be an array or object with two CSV strings
-                    let csv1, csv2;
-                    if (Array.isArray(result) && result.length === 2) {
-                        [csv1, csv2] = result;
-                    } else if (typeof result === 'object' && result !== null && 'csv1' in result && 'csv2' in result) {
-                        csv1 = result.csv1;
-                        csv2 = result.csv2;
-                    } else {
-                        throw new Error('process_csv did not return two CSV strings.');
-                    }
+                    // // Expect result to be an array or object with two CSV strings
+                    // let csv1, csv2;
+                    // if (Array.isArray(result) && result.length === 2) {
+                    //     [csv1, csv2] = result;
+                    // } else if (typeof result === 'object' && result !== null && 'csv1' in result && 'csv2' in result) {
+                    //     csv1 = result.csv1;
+                    //     csv2 = result.csv2;
+                    // } else {
+                    //     throw new Error('process_csv did not return two CSV strings.');
+                    // }
 
-                    // Download first CSV
+                    // Expect result to be an array or object with two CSV strings
+                    let csv
+                    
+                        [csv] = result;
+                    
+
+                    // Download CSV
                     const blob1 = new Blob([csv1], { type: 'text/csv;charset=utf-8;' });
                     const url1 = URL.createObjectURL(blob1);
                     const a1 = document.createElement('a');
@@ -230,16 +273,27 @@
                     document.body.removeChild(a1);
                     URL.revokeObjectURL(url1);
 
-                    // Download second CSV
-                    const blob2 = new Blob([csv2], { type: 'text/csv;charset=utf-8;' });
-                    const url2 = URL.createObjectURL(blob2);
-                    const a2 = document.createElement('a');
-                    a2.href = url2;
-                    a2.download = `salientes_${selectedFile.name}`;
-                    document.body.appendChild(a2);
-                    a2.click();
-                    document.body.removeChild(a2);
-                    URL.revokeObjectURL(url2);
+                    // // Download first CSV
+                    // const blob1 = new Blob([csv1], { type: 'text/csv;charset=utf-8;' });
+                    // const url1 = URL.createObjectURL(blob1);
+                    // const a1 = document.createElement('a');
+                    // a1.href = url1;
+                    // a1.download = `entrantes_${selectedFile.name}`;
+                    // document.body.appendChild(a1);
+                    // a1.click();
+                    // document.body.removeChild(a1);
+                    // URL.revokeObjectURL(url1);
+
+                    // // Download second CSV
+                    // const blob2 = new Blob([csv2], { type: 'text/csv;charset=utf-8;' });
+                    // const url2 = URL.createObjectURL(blob2);
+                    // const a2 = document.createElement('a');
+                    // a2.href = url2;
+                    // a2.download = `salientes_${selectedFile.name}`;
+                    // document.body.appendChild(a2);
+                    // a2.click();
+                    // document.body.removeChild(a2);
+                    // URL.revokeObjectURL(url2);
 
                     showMessage('CSV procesado!', 'success');
 
@@ -265,4 +319,5 @@
         setProcessingState(false);
     </script>
 </body>
+
 </html>
